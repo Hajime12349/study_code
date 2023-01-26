@@ -116,12 +116,14 @@ def calc_average(previous_average,value,count):
 
 def main() -> None:
     # 保存先のディレクトリの定義と作成
-    save_root = Path(".") / r'python_result\evaluate'
+    save_root = Path(".") / r'evaluate'
     csv_output = save_root/"iou_result.csv"
+    detect_folder=Path('.') /'r3_real'
+    print(detect_folder)
     # print(save_root)
 
     # テストデータのpath読み込み
-    test_txt_path = Path(".") / r'data\test.txt'
+    test_txt_path = Path(".") / r'test.txt'
     with open(test_txt_path) as f:
         list_test_txt = f.readlines()
 
@@ -144,7 +146,7 @@ def main() -> None:
         # 検出データの抽出
         trimed_name = re.search('IMG_\d*', image_name)
         file_name=trimed_name.group()+'.txt'
-        detected_path = Path('.') /'python_result'/file_name
+        detected_path = detect_folder/file_name
         with open(detected_path, 'r', encoding="utf-8_sig") as detected_txt:
             detected_list = detected_txt.readlines()
         detected_box_list = create_box(detected_list)
@@ -163,6 +165,11 @@ def main() -> None:
     print(f'Precision:{precision}')
     print(f'Recall:{recall}')
     print(f'F-score:{calc_f(precision,recall)}')
+
+    with open(detect_folder/'result.txt', 'w') as f:
+        f.write(f'Precision:{precision}\n')
+        f.write(f'Recall:{recall}\n')
+        f.write(f'F-score:{calc_f(precision,recall)}')
 
 if __name__ == "__main__":
     main()
