@@ -3,6 +3,7 @@
 import cv2
 import numpy as np
 import glob
+import re
 from PIL import Image,ImageDraw
 import random
 
@@ -73,6 +74,10 @@ for name_IMG,name_TXT in zip(names_IMG,names_TXT):
     # name_IMG='IMG_'+str(i)+'.jpg'
     # name_TXT='IMG_'+str(i)+'.txt'
     
+    if(re.sub(r"\D", "", name_IMG)!=re.sub(r"\D", "", name_TXT)):
+        raise ValueError("diff name")
+
+
     image = cv2.imread(name_IMG, cv2.IMREAD_IGNORE_ORIENTATION | cv2.IMREAD_COLOR)
     height, width, channels = image.shape[:3]
 
