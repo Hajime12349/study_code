@@ -2,6 +2,7 @@
 
 import cv2
 import numpy as np
+import glob
 from PIL import Image,ImageDraw
 import random
 
@@ -23,11 +24,10 @@ def image_detection(detections,image,height, width):
     # darknet_image = darknet.make_image(width, height, 3)
 
     for detect_str in detections:
-        print(len(detect_str))
         tmp_sp=detect_str.split()
         detect=[float(i)*height for i in tmp_sp]
         detect=detect[1:]
-        print(detect)
+        #print(detect)
         boxes=[detect[0]-detect[2]/2,
                 detect[1]-detect[3]/2,
                 detect[0]+detect[2]/2,
@@ -62,21 +62,26 @@ def show(image):
     cv2.waitKey()
 
 i=0
-while i<=3:
-    i+=1
-    print(str(i))
-    name_IMG='IMG_'+str(i)+'.jpg'
-    name_TXT='IMG_'+str(i)+'.txt'
 
+names_IMG=glob.glob('./*.jpg')
+names_TXT=glob.glob('./*.txt')
+
+
+for name_IMG,name_TXT in zip(names_IMG,names_TXT):
+    i+=1
+    print(str(name_IMG))
+    # name_IMG='IMG_'+str(i)+'.jpg'
+    # name_TXT='IMG_'+str(i)+'.txt'
+    
     image = cv2.imread(name_IMG, cv2.IMREAD_IGNORE_ORIENTATION | cv2.IMREAD_COLOR)
     height, width, channels = image.shape[:3]
 
     with open(name_TXT, "r") as f:
         datalist = f.readlines()
-        count_row=0
         if(len(datalist)!=0):
             out_image=image_detection(datalist,image,height, width)
             #show(image)
-            cv2.imwrite(fr'./output/OIMG_{count_row}.jpg', out_image)
+            cv2.imwrite(fr'./output/out_{i}.jpg', out_image)
+            print('end')
     f.close()
 
