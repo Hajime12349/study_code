@@ -73,11 +73,11 @@ for name_IMG,name_TXT in zip(names_IMG,names_TXT):
     print(str(name_IMG))
     # name_IMG='IMG_'+str(i)+'.jpg'
     # name_TXT='IMG_'+str(i)+'.txt'
+    num_IMG=re.sub(r"\D", "", name_IMG)
+
+    if(num_IMG!=re.sub(r"\D", "", name_TXT)):
+        raise ValueError("error!")
     
-    if(re.sub(r"\D", "", name_IMG)!=re.sub(r"\D", "", name_TXT)):
-        raise ValueError("diff name")
-
-
     image = cv2.imread(name_IMG, cv2.IMREAD_IGNORE_ORIENTATION | cv2.IMREAD_COLOR)
     height, width, channels = image.shape[:3]
 
@@ -86,7 +86,9 @@ for name_IMG,name_TXT in zip(names_IMG,names_TXT):
         if(len(datalist)!=0):
             out_image=image_detection(datalist,image,height, width)
             #show(image)
-            cv2.imwrite(fr'./output/out_{i}.jpg', out_image)
-            print('end')
+            cv2.imwrite(fr'./output/out_{num_IMG}.jpg', out_image)
+            print(num_IMG)
+        else:
+            cv2.imwrite(fr'./output/out_{num_IMG}.jpg', image)
     f.close()
 
