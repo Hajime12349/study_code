@@ -4,6 +4,8 @@ import cv2
 import numpy as np
 from PIL import Image
 import random
+import os
+import sys
 
 
 class Box:
@@ -28,30 +30,31 @@ def show(image, boxes, color, alpha,i):
     cv2.namedWindow("img", cv2.WINDOW_NORMAL)
     cv2.imshow('img', image)
     cv2.waitKey()
+
 i=0
-while i<=4940:
-    i+=random.randint(1, 1000)
-    print(str(i))
-    name_IMG='IMG_'+str(i)+'.png'
-    #name_IMG='IMG_'+str(i)+'.jpg'
-    name_TXT='IMG_'+str(i)+'.txt'
+while i<=int(sys.argv[1]):
+    i+=random.randint(1, int(sys.argv[2]))
+    #name_IMG='IMG_'+str(i)+'.png'
+    name_IMG='img\IMG_'+str(i)+'.jpg'
+    name_TXT='txt\IMG_'+str(i)+'.txt'
+    print(name_IMG)
+    if(os.path.exists(name_IMG)):
+        image = cv2.imread(name_IMG, cv2.IMREAD_IGNORE_ORIENTATION | cv2.IMREAD_COLOR)
+        height, width, channels = image.shape[:3]
 
-    image = cv2.imread(name_IMG, cv2.IMREAD_IGNORE_ORIENTATION | cv2.IMREAD_COLOR)
-    height, width, channels = image.shape[:3]
-
-    with open(name_TXT, "r") as f:
-        datalist = f.readlines()
-        count_row=0
-        if(len(datalist)==0):
-            cv2.namedWindow("img", cv2.WINDOW_NORMAL)
-            cv2.imshow('img', image)
-            cv2.waitKey()
-        for data in datalist:
-            position=data.split()
-            boxes =[Box(float(position[1])*width-(float(position[3])*width/2),float(position[2])*height-(float(position[4])*height/2),float(position[3])*width,float(position[4])*height)] 
-            top=(float(position[1])*width-(float(position[3])*width/2),float(position[2])*height-(float(position[4])*height/2))
-            bottom=(top[0]+(float(position[3])*width),top[1]+(float(position[4])*height))
-            show(image, boxes, (255, 0, 0), 0.5,count_row)
-            count_row+=1
+        with open(name_TXT, "r") as f:
+            datalist = f.readlines()
+            count_row=0
+            if(len(datalist)==0):
+                cv2.namedWindow("img", cv2.WINDOW_NORMAL)
+                cv2.imshow('img', image)
+                cv2.waitKey()
+            for data in datalist:
+                position=data.split()
+                boxes =[Box(float(position[1])*width-(float(position[3])*width/2),float(position[2])*height-(float(position[4])*height/2),float(position[3])*width,float(position[4])*height)] 
+                top=(float(position[1])*width-(float(position[3])*width/2),float(position[2])*height-(float(position[4])*height/2))
+                bottom=(top[0]+(float(position[3])*width),top[1]+(float(position[4])*height))
+                show(image, boxes, (255, 0, 0), 0.5,count_row)
+                count_row+=1
 
 
