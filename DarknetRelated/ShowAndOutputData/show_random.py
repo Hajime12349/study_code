@@ -7,6 +7,9 @@ import random
 import os
 import sys
 
+#arg1:number of image
+#arg2:random coefication
+
 
 class Box:
     def __init__(self, x, y, w, h):
@@ -32,11 +35,11 @@ def show(image, boxes, color, alpha,i):
     cv2.waitKey()
 
 i=0
-while i<=int(sys.argv[1]):
+while i<=int(sys.argv[1])-int(sys.argv[2]):
     i+=random.randint(1, int(sys.argv[2]))
-    #name_IMG='IMG_'+str(i)+'.png'
-    name_IMG='img\IMG_'+str(i)+'.jpg'
-    name_TXT='txt\IMG_'+str(i)+'.txt'
+    name_IMG='IMG_'+str(i)+'.png'
+    #name_IMG='img\IMG_'+str(i)+'.jpg'
+    name_TXT='IMG_'+str(i)+'.txt'
     print(name_IMG)
     if(os.path.exists(name_IMG)):
         image = cv2.imread(name_IMG, cv2.IMREAD_IGNORE_ORIENTATION | cv2.IMREAD_COLOR)
