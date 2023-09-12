@@ -1,10 +1,10 @@
 #!/bin/bash
-work_dir="`pwd`"
-txt_dir="/home/owner/taguchi/data/kikurage_data/"
 name=$1
+work_dir="`pwd`"
 save_path="./$name/datasets"
 mkdir $save_path
 find ./$name/test_latest/images/ -name "*fake_B*" | xargs -I {} cp {} $save_path/
+
 cd $save_path
 for file in *
 do number=$(echo "$file" | grep -oE '[0-9]+')
@@ -12,8 +12,6 @@ do number=$(echo "$file" | grep -oE '[0-9]+')
 	mv "$file" "$new_name"
 	echo $new_name
 done
-
-cd $txt_dir
-ls IMG_{1..1235}.txt | xargs -I {} cp {} $work_dir/$save_path
-
 cd $work_dir
+
+find /home/owner/taguchi/RetinaGan/cyclegan/datasets/obj/testA/ -name "*.txt" | xargs -I {} cp {} $save_path/
