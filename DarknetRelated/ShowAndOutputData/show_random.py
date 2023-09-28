@@ -35,11 +35,14 @@ def show(image, boxes, color, alpha,i):
     cv2.waitKey()
 
 i=0
+diff=10000
+# sys.argv[1]=32
+# sys.argv[2]=3
 while i<=int(sys.argv[1])-int(sys.argv[2]):
     i+=random.randint(1, int(sys.argv[2]))
-    name_IMG='IMG_'+str(i)+'.png'
-    #name_IMG='img\IMG_'+str(i)+'.jpg'
-    name_TXT='IMG_'+str(i)+'.txt'
+    #name_IMG=f'IMG_{diff+i}.png'
+    name_IMG=f'IMG_{diff+i}.jpg'
+    name_TXT=f'IMG_{diff+i}.txt'
     print(name_IMG)
     if(os.path.exists(name_IMG)):
         image = cv2.imread(name_IMG, cv2.IMREAD_IGNORE_ORIENTATION | cv2.IMREAD_COLOR)
