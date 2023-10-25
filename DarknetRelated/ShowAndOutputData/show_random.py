@@ -6,6 +6,7 @@ from PIL import Image
 import random
 import os
 import sys
+from pathlib import Path
 
 #arg1:number of image
 #arg2:random coefication
@@ -35,20 +36,24 @@ def show(image, boxes, color, alpha,i):
     cv2.waitKey()
 
 i=0
-diff=10000
+#diff=10000
+diff=0
 # sys.argv[1]=32
 # sys.argv[2]=3
 while i<=int(sys.argv[1])-int(sys.argv[2]):
     i+=random.randint(1, int(sys.argv[2]))
-    #name_IMG=f'IMG_{diff+i}.png'
-    name_IMG=f'IMG_{diff+i}.jpg'
+    name_IMG=f'IMG_{diff+i}.png'
+    #name_IMG=f'IMG_{diff+i}.jpg'
     name_TXT=f'IMG_{diff+i}.txt'
-    print(name_IMG)
-    if(os.path.exists(name_IMG)):
-        image = cv2.imread(name_IMG, cv2.IMREAD_IGNORE_ORIENTATION | cv2.IMREAD_COLOR)
+    
+    IMG_path=fr'./datasets/{name_IMG}'
+    TXT_path=fr'./datasets/{name_TXT}'
+    print(IMG_path)
+    if(os.path.exists(IMG_path)):
+        image = cv2.imread(IMG_path, cv2.IMREAD_IGNORE_ORIENTATION | cv2.IMREAD_COLOR)
         height, width, channels = image.shape[:3]
 
-        with open(name_TXT, "r") as f:
+        with open(TXT_path, "r") as f:
             datalist = f.readlines()
             count_row=0
             if(len(datalist)==0):
