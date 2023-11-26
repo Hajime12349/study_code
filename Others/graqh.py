@@ -18,15 +18,15 @@ def plot_graqh(names,data):
     index=0
     for name in names:    
         print(F'x:{len(x)},y:{len(data[index])}')
-        plt.plot(x,data[index], "-", label=name)
+        plt.plot(x,data[index],marker='.', label=name)
         index+=1
 
-    plt.xlabel('epoch')
-    plt.ylabel('recall')
+    plt.xlabel('Epoch',fontsize='larger')
+    plt.ylabel('Recall',fontsize='larger')
     #plt.ylim(0,1)
 
     # 凡例を表示
-    plt.legend()
+    plt.legend(fontsize='large')
 
     # グラフを表示
     plt.show()
@@ -38,7 +38,7 @@ name=[]
 result=[]
 before=''
 
-with open('analsys_result_recall_0.5.csv') as f:
+with open('analsys_result_map.csv') as f:
     reader=csv.reader(f)
     tmp_result=[]
     count=0
