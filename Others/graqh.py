@@ -8,7 +8,9 @@ plt.rcParams['ytick.direction'] = 'in' # y axis in
 plt.rcParams['axes.linewidth'] = 1.0 # axis line width
 plt.rcParams['axes.grid'] = True # make grid
 
-def plot_graqh(names,data):
+markers=["o","s", "v", "^", "2", "3"]
+
+def plot_graqh(names,data,metric):
 
     x = list(range(25, 301, 25))
 
@@ -17,28 +19,50 @@ def plot_graqh(names,data):
     
     index=0
     for name in names:    
-        print(F'x:{len(x)},y:{len(data[index])}')
-        plt.plot(x,data[index],marker='.', label=name)
+        #print(F'x:{len(x)},y:{len(data[index])}')
+        #print(name)
+        plt.plot(x,data[index],marker=markers[index], label=name,markersize=6)
         index+=1
 
-    plt.xlabel('Epoch',fontsize='larger')
-    plt.ylabel('Recall',fontsize='larger')
-    #plt.ylim(0,1)
+    plt.xlabel('Epoch',fontsize=16)
+    #plt.ylabel('Recall',fontsize=16)
+    #plt.ylabel('Precision',fontsize=16)
+    plt.ylabel('mAP',fontsize=16)
+    
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+    
+    #Y軸範囲指定
+    #plt.ylim(0.55,0.75)
+    #plt.ylim(0.75,0.95)
+    #plt.ylim(0.5,0.95)
+
 
     # 凡例を表示
-    plt.legend(fontsize='large')
+    plt.legend(fontsize=14).get_frame().set_alpha(0.6)
 
+    
+    plt.savefig(f'{metric}_mix.png', format="png", dpi=600)
     # グラフを表示
     plt.show()
 
+    
 
-targets=['Real_1235','CG_1235','t2_cycle_200','t2_retina_200']
-def_names=['Real','CG','CycleGAN-Generated','RetinaGAN-Generated']
+#target_metric='map'
+target_metric='recall_0.5'
+#target_metric='recall_0.75'
+#target_metric='precision_0.5'
+#target_metric='precision_0.75'
+
+#targets=['Real_1235','CG_1235','t2_cycle_200','t2_retina_200']
+targets=['Real_1235','t2_real_CG','t2_real_cycle','t2_real_retina']
+#def_names=['Real','CG','CycleGAN-Generated','RetinaGAN-Generated']
+def_names=['Real','Real+CG','Real+CycleGAN','Real+RetinaGAN']
 name=[]
 result=[]
 before=''
 
-with open('analsys_result_map.csv') as f:
+with open(f'analsys_result_{target_metric}.csv') as f:
     reader=csv.reader(f)
     tmp_result=[]
     count=0
@@ -54,6 +78,7 @@ with open('analsys_result_map.csv') as f:
             if match:
                 #print(f'{before}:{target}')
                 if before != target:
+                    print(def_names[targets.index(before)])
                     name.append(def_names[targets.index(before)])
                     result.append(tmp_result)
                     tmp_result=[]
@@ -62,7 +87,7 @@ with open('analsys_result_map.csv') as f:
 
 name.append(def_names[targets.index(before)])
 result.append(tmp_result)
-plot_graqh(name,result)
+plot_graqh(name,result,target_metric)
 
 # print(name)
 # print(result)
