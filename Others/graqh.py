@@ -12,7 +12,6 @@ markers=["o","s", "v", "^", "2", "3"]
 
 def plot_graqh(names,data,metric):
 
-    x = list(range(25, 301, 25))
 
     # 折れ線グラフの描画
     plt.figure(figsize=(8, 6))  # グラフのサイズを設定
@@ -21,22 +20,27 @@ def plot_graqh(names,data,metric):
     for name in names:    
         #print(F'x:{len(x)},y:{len(data[index])}')
         #print(name)
-        plt.plot(x,data[index],marker=markers[index], label=name,markersize=6)
+        #x = list(range(25, len(data[index])*25+1, 25))
+        #x = list(range(25, 601, 25))
+        x = list(range(25, 301, 25))
+        #plt.plot(x,data[index],marker=markers[index], label=name,markersize=6)
+        #plt.plot(x,data[index][:24],marker=markers[index], label=name,markersize=6)
+        plt.plot(x,data[index][:12],marker=markers[index], label=name,markersize=6)
         index+=1
 
     plt.xlabel('Epoch',fontsize=16)
-    #plt.ylabel('Recall',fontsize=16)
+    plt.ylabel('Recall',fontsize=16)
     #plt.ylabel('Precision',fontsize=16)
-    plt.ylabel('mAP',fontsize=16)
+    #plt.ylabel('mAP',fontsize=16)
     
     plt.xticks(fontsize=14)
     plt.yticks(fontsize=14)
     
     #Y軸範囲指定
     #plt.ylim(0.55,0.75)
-    #plt.ylim(0.75,0.95)
+    plt.ylim(0.85,0.95)
     #plt.ylim(0.5,0.95)
-
+    #plt.ylim(0.6,0.95)
 
     # 凡例を表示
     plt.legend(fontsize=14).get_frame().set_alpha(0.6)
@@ -50,13 +54,15 @@ def plot_graqh(names,data,metric):
 
 #target_metric='map'
 target_metric='recall_0.5'
+#target_metric='recall_0.25'
 #target_metric='recall_0.75'
 #target_metric='precision_0.5'
 #target_metric='precision_0.75'
 
-#targets=['Real_1235','CG_1235','t2_cycle_200','t2_retina_200']
+#targets=['Real_1235','CG_1235','t2_cycle_200','t2_retina_200','t2_retina_200_box1']
 targets=['Real_1235','t2_real_CG','t2_real_cycle','t2_real_retina']
 #def_names=['Real','CG','CycleGAN-Generated','RetinaGAN-Generated']
+#def_names=['Real','CG','CycleGAN-Generated','RetinaGAN-1','RetinaGAN-2']
 def_names=['Real','Real+CG','Real+CycleGAN','Real+RetinaGAN']
 name=[]
 result=[]
