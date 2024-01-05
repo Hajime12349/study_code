@@ -9,6 +9,7 @@ plt.rcParams['ytick.direction'] = 'in' # y axis in
 plt.rcParams['axes.linewidth'] = 1.0 # axis line width
 plt.rcParams['axes.grid'] = True # make grid
 
+interval=100
 markers=["o","s", "v", "^", "2", "3"]
 
 def plot_graqh(names,data,metric):
@@ -23,9 +24,17 @@ def plot_graqh(names,data,metric):
         #print(name)
         print(index)
         x = list(range(25, len(data[index])*25+1, 25))
+        #x = list(range(100, len(data[index])*100+1, 100))
         #x = list(range(25, 601, 25))
         #x = list(range(25, 501, 25))
-        plt.plot(x,data[index],marker=markers[index], label=name,markersize=6)
+        
+        y=data[index]
+        
+        x=x[1::2]
+        y=y[1::2]
+        #data[index]=data[index][::interval]
+        
+        plt.plot(x,y,marker=markers[index], label=name,markersize=6)
         #plt.plot(x,data[index][:12],marker=markers[index], label=name,markersize=6)
         index+=1
 
@@ -101,11 +110,15 @@ def calc_f2(list_recall,list_precision,targets):
         f2.append(list(f2_np))
 
 
-        max_f2=np.max(f2_np[:12])
-        max_index=np.argmax(f2_np[:12])
+        max_f2=np.max(f2_np)
+        max_index=np.argmax(f2_np)
+        
+        # max_f2=np.max(f2_np[:12])
+        # max_index=np.argmax(f2_np[:12])
         target_f2=f2_np[11]
-        #print(f'Model:{target},f2:{max_f2},epoch:{max_index*25+25},recall:{recall_np[max_index],}precision:{precision_np[max_index]}')
-        print(f'Model:{target},f2:{target_f2},epoch:{11*25+25}')
+        
+        print(f'Model:{target},f2:{max_f2},epoch:{max_index*25+25},recall:{recall_np[max_index],}precision:{precision_np[max_index]}')
+        #print(f'Model:{target},f2:{target_f2},epoch:{11*25+25}')
         
         print()
         index+=1
