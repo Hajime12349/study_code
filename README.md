@@ -1,2 +1,2 @@
 # study_code
-My source code written during my study.
+The source code for the tool I created for my academic research,　which is primarily written in Python.
